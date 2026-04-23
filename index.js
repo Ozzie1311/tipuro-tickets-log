@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const cors = require('cors')
 const pool = require('./src/db.js')
 const estadosRoutes = require('./src/routes/estadosRoutes.js')
 const ticketsRoutes = require('./src/routes/ticketsRoutes.js')
@@ -7,6 +8,11 @@ const authRoutes = require('./src/routes/authRoutes.js')
 const app = express()
 
 app.use(express.json())
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+  }),
+)
 
 //Código de prueba para testear conexión a la BD
 // pool.query('SELECT NOW()', (err, res) => {
