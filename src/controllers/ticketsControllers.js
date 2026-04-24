@@ -114,7 +114,8 @@ const actualizarTicket = async (req, res) => {
 const añadirComentario = async (req, res) => {
   try {
     const { id } = req.params
-    const { autor_id, contenido } = req.body
+    const {  contenido } = req.body
+    const autor_id = req.usuario.id
     const result = await pool.query(
       `
                 INSERT INTO comentarios (ticket_id, autor_id, contenido)
