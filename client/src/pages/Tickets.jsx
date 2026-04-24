@@ -35,11 +35,14 @@ const Tickets = () => {
   }
 
   return (
-    <div>
-      <div>
-        <h1>Tipuro tickets log</h1>
-        <span>Hola {usuario?.nombre}</span>
-        <button onClick={handleLogout}>Cerrar sesión</button>
+    <div className='min-h-screen bg-gray-900 text-white'>
+      {/* Header */}
+      <div className='bg-gray-800 px-4 py-4 flex items-center justify-between'>
+        <h1 className='text-lg font-bold'>Tipuro tickets log</h1>
+        <div className='flex items-center gap-3'>
+          <span className='text-gray-400 text-sm'>Hola {usuario?.nombre}</span>
+          <button onClick={handleLogout} className='text-red-400 text-sm'>Cerrar sesión</button>
+        </div>
       </div>
       {error && <p>{error}</p>}
 
