@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import api from '../api'
+import NuevoTicketModal from '../components/NuevoTicketModal.jsx'
+import api from '../api.js'
 
 const Tickets = () => {
   const [tickets, setTickets] = useState([])
   const [error, setError] = useState(null)
+  const [mostrarModal, setMostrarModal] = useState(false)
   const { usuario, logout } = useAuth()
   const navigate = useNavigate()
 
@@ -25,6 +27,11 @@ const Tickets = () => {
   const handleLogout = () => {
     logout()
     navigate('/')
+  }
+
+  const handleTicketCreado = async () => {
+    const res = await api.get('/tickets')
+    setTickets(res.data)
   }
 
   return (
@@ -47,7 +54,10 @@ const Tickets = () => {
         ))}
       </div>
 
-      <button onClick={() => navigate('/tickets/nuevo')}>+ Nuevo ticket</button>
+      <button onClick={() => setMostrarModal(true)}>+ Nuevo ticket</button>
+      {mostrarModal && (
+        <NuevoTicketModal onClose={() => setMostrarModal(false)} onTicketCreado={handleTicketCreado}/>
+      )}
     </div>
   )
 }
