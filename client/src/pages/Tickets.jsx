@@ -35,59 +35,50 @@ const Tickets = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gray-900 text-white'>
+  
+    <div className='min-h-screen bg-black text-white'>
       {/* Header */}
-      <div className='bg-gray-800 px-4 py-4 flex items-center justify-between'>
-        <h1 className='text-lg font-bold'>Tipuro tickets log</h1>
+      <div className='px-5 pt-12 pb-4 flex items-center justify-between'>
+        <h1 className='text-2xl font-semibold tracking-tight'>Tipuro tickets log</h1>
         <div className='flex items-center gap-3'>
-          <span className='text-gray-400 text-sm'>Hola {usuario?.nombre}</span>
-          <button onClick={handleLogout} className='text-red-400 text-sm'>
-            Cerrar sesión
-          </button>
+          <span className='text-gray-500 text-sm'>Hola {usuario?.nombre}</span>
+          <button onClick={handleLogout} className='text-red-400 text-sm font-medium'>Cerrar sesión</button>
         </div>
       </div>
 
-      {/* Lista de Tickets */}
-      <div className='p-4 flex flex-col gap-3'>
-        {error && <p className='text-red-400'>{error}</p>}
-        {tickets.map((t) => (
-          <div
-            key={t.id}
-            onClick={() => navigate(`/tickets/${t.id}`)}
-            className='bg-gray-800 rounded-xl p-4 flex flex-col gap-2 active:opacity-7'
-          >
-            <div className='flex items-center justify-between'>
-              <span
-                className='text-xs font-semibold px-2 py-1 rounded-full text-white'
-                style={{ backgroundColor: t.estado_color }}
-              >
-                {t.estado}
-              </span>
-              <span className='text-gray-400 text-xs'>
-                {new Date(t.creado_en).toLocaleDateString('es-VE')}
-              </span>
+      
+      
+
+      {/* Lista */}
+      <div className='px-4 flex flex-col gap-2 pb-24'>
+        {error && <p className='text-red-400 text-sm'>{error}</p>}
+        {tickets.map((t) => {
+          return (
+            <div key={t.id} onClick={() => navigate(`/tickets/${t.id}`)} className='bg-zinc-900 rounded-2xl p-4 flex flex-col gap-1 active:scale-95 transition-transform duration-150 cursor-pointer'>
+              <h3 className='font-semibold text-white text-base leading-snug'>{t.titulo}</h3>
+              <p className='text-zinc-500 text-sm line-clamp-1'>{t.descripcion}</p>
+              <div className='flex items-center gap-2 mt-2'>
+                <span className='text-zinc-500 text-xs'>Creado por: {t.creado_por}</span>
+                <span className='text-zinc-700 text-xs'>.</span>
+                <span className='text-zinc-500 text-xs'>Fecha de creacion: {new Date(t.creado_en).toLocaleDateString('es-VE')}</span>
+                <span className='text-gray-600 text-xs'>.</span>
+                <span className='ml-auto text-xs font-medium px-2.5 py-0.5 rounded-full' style={{backgroundColor: t.estado_color + '33', color: t.estado_color}} >
+                  {t.estado}
+                </span>
+              </div>
             </div>
-            <h3 className='font-semibold'>{t.titulo}</h3>
-            <p className='text-gray-400 text-sm'>Por: {t.creado_por}</p>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
-      {/* Boton nuevo ticket */}
-      <div className='fixed bottom-6 right-6'>
-        <button
-          onClick={() => setMostrarModal(true)}
-          className='bg-blue-600 text-white rounded-full w-14 h-14 text-2xl shadow-lg'
-        >
-          +
-        </button>
+      {/* Boton flotante */}
+      <div className='fixed bottom-8 right-5'>
+        <button onClick={() => setMostrarModal(true)} className='bg-blue-500 text-white rounded-full w-14 h-14 text-3xl shadow-2xl flex items-center justify-center active:scale-90 transition-transform duration-150'>+</button>
       </div>
 
+      
       {mostrarModal && (
-        <NuevoTicketModal
-          onClose={() => setMostrarModal(false)}
-          onTicketCreado={handleTicketCreado}
-        />
+        <NuevoTicketModal onClose={() => setMostrarModal(false)} onTicketCreado={handleTicketCreado}/>
       )}
     </div>
   )

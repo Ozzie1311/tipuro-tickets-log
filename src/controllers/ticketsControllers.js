@@ -9,6 +9,7 @@ const obtenerTickets = async (req, res) => {
             t.descripcion,
             t.creado_en,
             e.nombre AS estado,
+            e.color AS estado_color,
             u.nombre AS creado_por
             FROM tickets t
             JOIN estados e ON t.estado_id = e.id
