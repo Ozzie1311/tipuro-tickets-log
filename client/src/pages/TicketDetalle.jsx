@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { formatearFecha } from '../utils/formatearFecha'
 import api from '../api'
 
 const TicketDetalle = () => {
@@ -183,7 +184,7 @@ const TicketDetalle = () => {
                   {c.contenido}
                 </p>
                 <span className='text-zinc-600 text-xs'>
-                  {c.autor} {new Date(c.creado_en).toLocaleString('es-VE')}
+                  {c.autor} {formatearFecha(c.creado_en)}
                 </span>
                 <div className='border-b border-zinc-800 mt-2'></div>
               </div>

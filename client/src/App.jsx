@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Tickets from './pages/Tickets'
 import TicketDetalle from './pages/TicketDetalle'
 import TicketsResueltos from './pages/TicketsResueltos'
+import PrivateRoute from './components/privateRoute'
 
 function App() {
   return (
@@ -11,9 +12,30 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login />} />
-          <Route path='/tickets' element={<Tickets />} />
-          <Route path='/tickets/resueltos' element={<TicketsResueltos />} />
-          <Route path='/tickets/:id' element={<TicketDetalle />} />
+          <Route
+            path='/tickets'
+            element={
+              <PrivateRoute>
+                <Tickets />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/tickets/resueltos'
+            element={
+              <PrivateRoute>
+                <TicketsResueltos />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/tickets/:id'
+            element={
+              <PrivateRoute>
+                <TicketDetalle />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

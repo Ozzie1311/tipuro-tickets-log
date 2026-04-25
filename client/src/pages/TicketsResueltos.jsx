@@ -6,7 +6,7 @@ import api from '../api'
 const TicketsResueltos = () => {
   const [tickets, setTickets] = useState([])
   const [error, setError] = useState(null)
-  //   const { usuario } = useAuth()
+  const { usuario } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {

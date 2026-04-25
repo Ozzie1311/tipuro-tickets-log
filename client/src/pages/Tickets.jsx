@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import NuevoTicketModal from '../components/NuevoTicketModal.jsx'
+import { formatearFecha } from '../utils/formatearFecha.js'
 import api from '../api.js'
 
 const Tickets = () => {
@@ -75,8 +76,7 @@ const Tickets = () => {
                 </span>
                 <span className='text-zinc-700 text-xs'>.</span>
                 <span className='text-zinc-500 text-xs'>
-                  Fecha de creacion:{' '}
-                  {new Date(t.creado_en).toLocaleDateString('es-VE')}
+                  Fecha de creacion: {formatearFecha(t.creado_en)}
                 </span>
                 <span className='text-gray-600 text-xs'>.</span>
                 <span

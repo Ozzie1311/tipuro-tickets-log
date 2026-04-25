@@ -34,16 +34,19 @@ const obtenerTicketPorId = async (req, res) => {
                 t.descripcion,
                 t.creado_en,
                 t.actualizado_en,
+                t.actualizado_por,
                 e.nombre AS estado,
                 e.color AS estado_color,
                 u1.nombre AS creado_por,
                 u2.nombre AS asignado_a,
-                u3.nombre AS resuelto_por
+                u3.nombre AS resuelto_por,
+                u4.nombre AS actualizado_por
                 FROM tickets t
                 JOIN estados e ON t.estado_id = e.id
                 JOIN usuarios u1 ON t.creado_por = u1.id
                 LEFT JOIN usuarios u2 ON t.asignado_a = u2.id
                 LEFT JOIN usuarios u3 ON t.resuelto_por = u3.id
+                LEFT JOIN usuarios u4 ON t.actualizado_por = u4.id
                 WHERE t.id = $1
             `,
       [id],
@@ -94,6 +97,8 @@ const actualizarTicket = async (req, res) => {
   try {
     const { id } = req.params
     const { estado_id, asignado_a, resuelto_por } = req.body
+    const actualizado_por = req.usuario.id
+
     const result = await pool.query(
       `
                 UPDATE tickets
@@ -101,11 +106,12 @@ const actualizarTicket = async (req, res) => {
                 estado_id = COALESCE($1, estado_id),
                 asignado_a = COALESCE($2, asignado_a),
                 resuelto_por = COALESCE($3, resuelto_por),
+                actualizado_por = $4,
                 actualizado_en = NOW()
-                WHERE id = $4
+                WHERE id = $5
                 RETURNING *
             `,
-      [estado_id, asignado_a, resuelto_por, id],
+      [estado_id, asignado_a, resuelto_por, actualizado_por, id],
     )
     res.json(result.rows[0])
   } catch (error) {
@@ -116,7 +122,7 @@ const actualizarTicket = async (req, res) => {
 const añadirComentario = async (req, res) => {
   try {
     const { id } = req.params
-    const {  contenido } = req.body
+    const { contenido } = req.body
     const autor_id = req.usuario.id
     const result = await pool.query(
       `
@@ -143,23 +149,24 @@ const obtenerTicketsResueltos = async (req, res) => {
         LEFT JOIN usuarios u2 ON t.resuelto_por = u2.id
         WHERE resuelto = TRUE
         ORDER BY t.actualizado_en DESC
-      `,)
-      res.json(result.rows)
-  } catch(error){
-    res.status(500).json({error: error.message})
+      `)
+    res.json(result.rows)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
   }
 }
 
 const resolverTicket = async (req, res) => {
   try {
-    const {id} = req.params
+    const { id } = req.params
     const resuelto_por = req.usuario.id
 
     const estadoResuelto = await pool.query(`
       SELECT id FROM estados WHERE nombre='Resuelto'
       `)
 
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
         UPDATE tickets
         SET
         resuelto = TRUE,
@@ -168,11 +175,13 @@ const resolverTicket = async (req, res) => {
         actualizado_en = NOW()
         WHERE id = $3
         RETURNING *
-      `, [resuelto_por, estadoResuelto.rows[0].id, id])
+      `,
+      [resuelto_por, estadoResuelto.rows[0].id, id],
+    )
 
     res.json(result.rows[0])
-  } catch(error) {
-    res.status(500).json({error: error.message})
+  } catch (error) {
+    res.status(500).json({ error: error.message })
   }
 }
 
@@ -183,5 +192,5 @@ module.exports = {
   actualizarTicket,
   añadirComentario,
   obtenerTicketsResueltos,
-  resolverTicket
+  resolverTicket,
 }
