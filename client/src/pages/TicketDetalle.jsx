@@ -116,7 +116,7 @@ const TicketDetalle = () => {
 
           {/* Boton resolver */}
           {!ticket.resuelto && (
-            <button onClick={() => setMostrarConfirmacion(true)} className='bg-green-500/20 text-green-400 rounded-2xl p-4 font-semibold text-sm active:scale-95 transition-transform duration-150'>
+            <button onClick={() => setMostrarConfirmacion(true)} className='bg-green-500/20 text-green-400 rounded-2xl p-4 font-semibold text-md active:scale-95 transition-transform duration-150'>
               Resolver ticket ✔
             </button>
           )}
