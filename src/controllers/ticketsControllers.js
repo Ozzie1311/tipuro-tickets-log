@@ -14,6 +14,7 @@ const obtenerTickets = async (req, res) => {
             FROM tickets t
             JOIN estados e ON t.estado_id = e.id
             JOIN usuarios u ON t.creado_por = u.id
+            WHERE t.resuelto IS NOT TRUE
             ORDER BY t.creado_en DESC
             `)
     res.json(result.rows)
@@ -131,10 +132,56 @@ const añadirComentario = async (req, res) => {
   }
 }
 
+const obtenerTicketsResueltos = async (req, res) => {
+  try {
+    const result = await pool.query(`
+        SELECT
+        t.id, t.titulo, t.descripcion, t.creado_en, t.actualizado_en, e.nombre AS estado, e.color AS estado_color, u.nombre AS creado_por, u2.nombre AS resuelto_por
+        FROM tickets t
+        JOIN estados e ON t.estado_id = e.id
+        JOIN usuarios u ON t.creado_por = u.id
+        LEFT JOIN usuarios u2 ON t.resuelto_por = u2.id
+        WHERE resuelto = TRUE
+        ORDER BY t.actualizado_en DESC
+      `,)
+      res.json(result.rows)
+  } catch(error){
+    res.status(500).json({error: error.message})
+  }
+}
+
+const resolverTicket = async (req, res) => {
+  try {
+    const {id} = req.params
+    const resuelto_por = req.usuario.id
+
+    const estadoResuelto = await pool.query(`
+      SELECT id FROM estados WHERE nombre='Resuelto'
+      `)
+
+    const result = await pool.query(`
+        UPDATE tickets
+        SET
+        resuelto = TRUE,
+        resuelto_por = $1,
+        estado_id = $2,
+        actualizado_en = NOW()
+        WHERE id = $3
+        RETURNING *
+      `, [resuelto_por, estadoResuelto.rows[0].id, id])
+
+    res.json(result.rows[0])
+  } catch(error) {
+    res.status(500).json({error: error.message})
+  }
+}
+
 module.exports = {
   obtenerTickets,
   obtenerTicketPorId,
   crearTicket,
   actualizarTicket,
   añadirComentario,
+  obtenerTicketsResueltos,
+  resolverTicket
 }

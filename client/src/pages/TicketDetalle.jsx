@@ -50,92 +50,94 @@ const TicketDetalle = () => {
     }
   }
 
-  if (!ticket) return <p>Cargando...</p>
+  if (!ticket) return <p className='bg-black'>Cargando...</p>
 
   return (
-    <div className='min-h-screen bg-gray-900 text-white'>
+    <div className='min-h-screen bg-black text-white'>
       {/* Header */}
-      <div className='bg-gray-800 px-4 py-4 flex items-center gap-3'>
-        <button className='text-blue-400' onClick={() => navigate('/tickets')}>
+      <div className='px-5 pt-12 pb-4 flex items-center gap-3'>
+        <button className='text-blue-400 text-sm font-medium flex items-center gap-1' onClick={() => navigate('/tickets')}>
           ⬅ Volver
         </button>
-        <h2 className='font-bold text-lg truncate'>{ticket.titulo}</h2>
       </div>
-
-      <div className='p-4 flex flex-col gap-4'>
-        {/* Informacion del ticket */}
-        <div className='bg-gray-800 rounded-xl p-4 flex flex-col gap-2'>
-          <p className='text-gray-300'>{ticket.descripcion}</p>
-          <div className='flex items-center gap-2 mt-1'>
-            <span
-              className='text-xs font-semibold px-2 py-1 rounded-full text-white'
-              style={{ backgroundColor: ticket.estado_color }}
-            >
-              {ticket.estado}
-            </span>
-          </div>
-          <p className='text-gray-400 text-sm'>
-            Creado por: {ticket.creado_por}
-          </p>
-          <p className='text-gray-400 text-sm'>
-            Asignado a: {ticket.asignado_a || 'Sin asignar'}
-          </p>
-          <p className='text-gray-400 text-sm'>
-            Resuelto por: {ticket.resuelto_por || 'Sin resolver'}
-          </p>
-        </div>
-
-        {/* Cambiar estado */}
-        <div className='bg-gray-800 rounded-xl p-4'>
-          <h3 className='font-semibold mb-3'>Cambiar estado</h3>
-          <div className='flex flex-wrap gap-2'>
-            {estados.map((e) => (
-              <button
-                key={e.id}
-                style={{ backgroundColor: e.color }}
-                onClick={() => handleEstado(e.id)}
-                className='text-xs font-semibold px-3 py-2 rounded-full text-white'
-                style={{ backgroundColor: e.color }}
-              >
-                {e.nombre}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Comentarios */}
-        <div className='bg-gray-800 rounded-xl p-4 flex flex-col gap-3'>
-          <h3 className='font-semibold'>Comentarios</h3>
-          {ticket.comentarios.map((c) => (
-            <div key={c.id} className='border-1-2 border-blue-500 pl-3'>
-              <p className='text-sm'>{c.contenido}</p>
-              <small className='text-gray-400 text-xs'>
-                {c.autor}-{new Date(c.creado_en).toLocaleString('es-VE')}
-              </small>
+        
+        <div className='px-4 flex flex-col gap-3 pb-10'>
+          {/* Informacion principal */}
+          <div className='bg-zinc-900 rounded-2xl p-5 flex flex-col gap-3'>
+            <div className='flex items-start justify-between gap-3'>
+              <h2 className='font-semibold text-xl leading-snug flex-1'>
+                {ticket.titulo}
+              </h2>
+              <span className='text-xs font-medium px-2.5 py-1 rounded-full shrink-0' style={{backgroundColor: ticket.estado_color + '33', color: ticket.estado_color}}>
+                {ticket.estado}
+              </span>
             </div>
-          ))}
+            <p className='text-zinc-400 text-sm leading-relaxed'>
+              {ticket.descripcion}
+            </p>
+            <div className='border-t border-zinc-800 pt-3 flex flex-col gap-1.5'>
+              <div className='flex'>
+                <span className='text-zinc-500 text-xs'>Creado por:</span>
+                <span className='ml-1 text-zinc-300 text-xs font-medium'>{ticket.creado_por}</span>
+              </div>
+              <div className='flex'>
+                <span className='text-zinc-500 text-xs'>Resuelto por:</span>
+                <span className='ml-1 text-zinc-300 text-xs font-medium'>{ticket.resuelto_por || "Sin resolver"}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Cambiar estado */}
+          <div className='bg-zinc-900 rounded-2xl p-5'>
+            <p className='text-zinc-500 text-xs font-medium uppercase tracking-wider mb-3'>Cambiar estado</p>
+            <div className='flex flex-wrap gap-2'>
+              {estados.map(e => {
+                return (
+                    <button key={e.id} onClick={() => handleEstado(e.id)}
+                    className='text-xs font-medium px-3 py-1.5 rounded-full active:scale-95 transition-transform duration-150'
+                    style={{backgroundColor: e.color + '33', color: e.color}}
+                    >
+                      {e.nombre}
+                    </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Comentarios */}
+          <div className='bg-zinc-900 rounded-2xl p-5 flex flex-col gap-3'>
+            <p className='text-zinc-500 text-xs font-medium uppercase tracking-wider'>Comentarios</p>
+            {ticket.comentarios.map(c => {
+              return (
+                <div key={c.id} className='flex flex-col gap-1'>
+                  <p className='text-sm text-zinc-200 leading-relaxed'>{c.contenido}</p>
+                  <span className='text-zinc-600 text-xs'>
+                    {c.autor} {new Date(c.creado_en).toLocaleString('es-VE')}
+                  </span>
+                  <div className='border-b border-zinc-800 mt-2'></div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Agreagar un comentario */}
+
+          <form onSubmit={handleComentario} className='flex flex-col gap-2'>
+            <textarea 
+              placeholder='Agregar comentario...'
+              value={comentario}
+              onChange={(e) => setComentario(e.target.value)}
+              className='bg-zinc-900 text-white rounded-2xl p-4 ouline-none placeholder-zinc-600 text-sm resize-none'
+              rows={3}
+            />
+            <button type='submit' className='bg-blue-500 text-white rounded-xl p-3 font-semibold active:scale-95 transition:transform duration-150'>
+              Comentar
+            </button>
+          </form>
+
+          {error && <p className='text-red-400'>{error}</p>}
         </div>
-
-        {/* Agregar comentario */}
-        <form onSubmit={handleComentario} className='flex flex-col gap-2'>
-          <textarea
-            placeholder='Agregar comentario...'
-            value={comentario}
-            onChange={(e) => setComentario(e.target.value)}
-            className='bg-gray-800 text-white rounded-xl p-3 outline-none placeholder-gray-400 resize-none'
-            rows={3}
-          />
-          <button
-            type='submit'
-            className='bg-blue-600 text-white rounded-xl p-3 font-semibold'
-          >
-            Comentar
-          </button>
-        </form>
-
-        {error && <p className='text-red-400 text-sm'>{error}</p>}
-      </div>
-    </div>
+   </div>
   )
 }
 
