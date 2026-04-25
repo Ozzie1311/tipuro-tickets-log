@@ -9,6 +9,7 @@ const TicketDetalle = () => {
   const [estados, setEstados] = useState([])
   const [comentario, setComentario] = useState('')
   const [error, setError] = useState(null)
+  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +51,16 @@ const TicketDetalle = () => {
     }
   }
 
+  const handleResolver = async () => {
+    try {
+      await api.patch(`/tickets/${id}/resolver`)
+      setMostrarConfirmacion(false)
+      navigate('/tickets')
+    } catch(error) {
+      setError('Error al resolver el ticket')
+    }
+  }
+
   if (!ticket) return <p className='bg-black'>Cargando...</p>
 
   return (
@@ -57,7 +68,7 @@ const TicketDetalle = () => {
       {/* Header */}
       <div className='px-5 pt-12 pb-4 flex items-center gap-3'>
         <button className='text-blue-400 text-sm font-medium flex items-center gap-1' onClick={() => navigate('/tickets')}>
-          ⬅ Volver
+          ⬅ Volver a los tickets
         </button>
       </div>
         
@@ -88,21 +99,44 @@ const TicketDetalle = () => {
           </div>
 
           {/* Cambiar estado */}
-          <div className='bg-zinc-900 rounded-2xl p-5'>
+          {!ticket.resuelto && (
+            <div className='bg-zinc-900 rounded-2xl p-5'>
             <p className='text-zinc-500 text-xs font-medium uppercase tracking-wider mb-3'>Cambiar estado</p>
             <div className='flex flex-wrap gap-2'>
-              {estados.map(e => {
-                return (
-                    <button key={e.id} onClick={() => handleEstado(e.id)}
-                    className='text-xs font-medium px-3 py-1.5 rounded-full active:scale-95 transition-transform duration-150'
-                    style={{backgroundColor: e.color + '33', color: e.color}}
-                    >
-                      {e.nombre}
-                    </button>
-                )
-              })}
+              {estados
+                .filter(e => e.nombre !== 'Resuelto')
+                .map(e => (
+                  <button key={e.id} onClick={() => handleEstado(e.id)} className='text-xs font-medium px-3 py-1.5 rounded-full active:scale-95 transition-transform duration-150' style={{backgroundColor: e.color + '33', color: e.color}}>
+                    {e.nombre}
+                  </button>
+                ))}
             </div>
           </div>
+          )}
+
+          {/* Boton resolver */}
+          {!ticket.resuelto && (
+            <button onClick={() => setMostrarConfirmacion(true)} className='bg-green-500/20 text-green-400 rounded-2xl p-4 font-semibold text-sm active:scale-95 transition-transform duration-150'>
+              Resolver ticket ✔
+            </button>
+          )}
+
+          {/* Modal de confirmacion */}
+          {mostrarConfirmacion && (
+            <div className='fixed inset-0 bg-black/70 backdrop-blur-sm flex items-end justify-center z-50 animate-fadeIn'>
+              <div className='bg-zinc-900 w-full rounded-t-3xl p-6 flex flex-col gap-4 pb-10 animate-slideUp'>
+                <div className='w-10 h-1 bg-zinc-600 rounded-full mx-auto mb-2'></div>
+                <h2 className='text-white font-semibold text-lg text-center'>Resolver ticket?</h2>
+                <p className='text-zinc-400 text-sm text-center'>Una vez resuelto el ticket no se podra editar, estas seguro?</p>
+                <button onClick={handleResolver} className='bg-green-500/10 text-green-400 rounded-xl p-3 font-semibold active:scale-95 transition-transform duration-150'>
+                  Sí, resolver ✔
+                </button>
+                <button onClick={() => setMostrarConfirmacion(false)} className='bg-red-500/10 text-red-400 rounded-xl p-3 font-semibold active:scale-95 transition-transform duration-150'>
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Comentarios */}
           <div className='bg-zinc-900 rounded-2xl p-5 flex flex-col gap-3'>
@@ -130,8 +164,8 @@ const TicketDetalle = () => {
               className='bg-zinc-900 text-white rounded-2xl p-4 ouline-none placeholder-zinc-600 text-sm resize-none'
               rows={3}
             />
-            <button type='submit' className='bg-blue-500 text-white rounded-xl p-3 font-semibold active:scale-95 transition:transform duration-150'>
-              Comentar
+            <button type='submit' className='bg-blue-500/20 text-blue-400 rounded-xl p-3 font-semibold active:scale-95 transition:transform duration-150'>
+              Agregar comentario 
             </button>
           </form>
 
