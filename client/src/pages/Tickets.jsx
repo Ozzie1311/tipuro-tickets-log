@@ -38,13 +38,13 @@ const Tickets = () => {
   return (
     <div className='min-h-screen bg-black text-white'>
       {/* Header */}
-      <div className='px-5 pt-12 pb-4 flex items-center justify-between'>
-        <h1 className='text-2xl font-semibold tracking-tight'>
+      <h1 className='text-2xl font-semibold tracking-tight text-center pt-4 mb-0'>
           Tipuro tickets log
         </h1>
-
-        <div className='flex items-center gap-3'>
-          <span className='text-gray-500 text-sm'>Hola, {usuario?.nombre}</span>
+      <div className='px-5 pt-8 pb-4 flex items-center justify-between'>
+        
+        <div className='flex items-center justify-between gap-3 w-full'>
+          <span className='text-zinc-300 text-sm font-semibold'>Hola, {usuario?.nombre}</span>
           <button
             onClick={handleLogout}
             className='text-red-400 text-sm font-medium'
@@ -64,9 +64,20 @@ const Tickets = () => {
               onClick={() => navigate(`/tickets/${t.id}`)}
               className='bg-zinc-900 rounded-2xl p-4 flex flex-col gap-1 active:scale-95 transition-transform duration-150 cursor-pointer'
             >
-              <h3 className='font-semibold text-white text-base leading-snug'>
+             <div className='flex items-start justify-between gap-3'>
+               <h3 className='font-semibold text-white text-base leading-snug'>
                 {t.titulo}
               </h3>
+               <span
+              className='text-xs font-medium px-2.5 py-1 rounded-full shrink-0'
+              style={{
+                backgroundColor: t.estado_color + '33',
+                color: t.estado_color,
+              }}
+            >
+              {t.estado}
+            </span>
+             </div>
               <p className='text-zinc-500 text-sm line-clamp-1'>
                 {t.descripcion}
               </p>
@@ -79,15 +90,6 @@ const Tickets = () => {
                   Fecha de creacion: {formatearFecha(t.creado_en)}
                 </span>
                 <span className='text-gray-600 text-xs'>.</span>
-                <span
-                  className='ml-auto text-xs font-medium px-2.5 py-0.5 rounded-full'
-                  style={{
-                    backgroundColor: t.estado_color + '33',
-                    color: t.estado_color,
-                  }}
-                >
-                  {t.estado}
-                </span>
               </div>
             </div>
           )
