@@ -1,8 +1,10 @@
 import axios from 'axios'
+import dotenv from 'dotenv'
+dotenv.config()
 
 //Agregando interceptor para no tener que enviar el token en cada petición. Con esto centralizamos el envio del token en cada petición.
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
 })
 
 api.interceptors.request.use((config) => {

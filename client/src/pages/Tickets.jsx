@@ -39,12 +39,13 @@ const Tickets = () => {
     <div className='min-h-screen bg-black text-white'>
       {/* Header */}
       <h1 className='text-2xl font-semibold tracking-tight text-center pt-4 mb-0'>
-          Tipuro tickets log
-        </h1>
+        Tipuro tickets log
+      </h1>
       <div className='px-5 pt-8 pb-4 flex items-center justify-between'>
-        
         <div className='flex items-center justify-between gap-3 w-full'>
-          <span className='text-zinc-300 text-sm font-semibold'>Hola, {usuario?.nombre}</span>
+          <span className='text-zinc-300 text-sm font-semibold'>
+            Hola, {usuario?.nombre}
+          </span>
           <button
             onClick={handleLogout}
             className='text-red-400 text-sm font-medium'
@@ -64,20 +65,20 @@ const Tickets = () => {
               onClick={() => navigate(`/tickets/${t.id}`)}
               className='bg-zinc-900 rounded-2xl p-4 flex flex-col gap-1 active:scale-95 transition-transform duration-150 cursor-pointer'
             >
-             <div className='flex items-start justify-between gap-3'>
-               <h3 className='font-semibold text-white text-base leading-snug'>
-                {t.titulo}
-              </h3>
-               <span
-              className='text-xs font-medium px-2.5 py-1 rounded-full shrink-0'
-              style={{
-                backgroundColor: t.estado_color + '33',
-                color: t.estado_color,
-              }}
-            >
-              {t.estado}
-            </span>
-             </div>
+              <div className='flex items-start justify-between gap-3'>
+                <h3 className='font-semibold text-white text-base leading-snug'>
+                  {t.titulo}
+                </h3>
+                <span
+                  className='text-xs font-medium px-2.5 py-1 rounded-full shrink-0'
+                  style={{
+                    backgroundColor: t.estado_color + '33',
+                    color: t.estado_color,
+                  }}
+                >
+                  {t.estado}
+                </span>
+              </div>
               <p className='text-zinc-500 text-sm line-clamp-1'>
                 {t.descripcion}
               </p>

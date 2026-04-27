@@ -14,15 +14,6 @@ app.use(
   }),
 )
 
-//Código de prueba para testear conexión a la BD
-// pool.query('SELECT NOW()', (err, res) => {
-//   if (err) {
-//     console.error('Error conectando a la base de datos: ', err)
-//   } else {
-//     console.log('Conexion exitosa a Supabase: ', res.rows[0])
-//   }
-// })
-
 const PORT = process.env.PORT || 3000
 
 app.use('/api/estados', estadosRoutes)
