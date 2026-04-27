@@ -1,6 +1,4 @@
 import axios from 'axios'
-import dotenv from 'dotenv'
-dotenv.config()
 
 //Agregando interceptor para no tener que enviar el token en cada petición. Con esto centralizamos el envio del token en cada petición.
 const api = axios.create({
@@ -18,3 +16,4 @@ api.interceptors.request.use((config) => {
 })
 
 export default api
+
