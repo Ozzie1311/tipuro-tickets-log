@@ -16,8 +16,12 @@ app.use(
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 )
+
+// Manejar preflight requests
+app.options('*', cors())
 
 const PORT = process.env.PORT || 3000
 
