@@ -1,4 +1,5 @@
 const pool = require('../db.js')
+require('dotenv').config()
 
 const obtenerTickets = async (req, res) => {
   try {
@@ -86,6 +87,20 @@ const crearTicket = async (req, res) => {
             `,
       [titulo, descripcion, creado_por],
     )
+
+    await fetch('https://onesignal.com/api/v1/notifications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${process.env.ONESIGNAL_API_KEY}`,
+      },
+      body: JSON.stringify({
+        app_id: process.env.ONESIGNAL_APP_ID,
+        included_segments: ['All'],
+        headings: { en: 'Nuevo ticket' },
+        contents: { en: titulo },
+      }),
+    })
 
     res.status(201).json(result.rows[0])
   } catch (error) {

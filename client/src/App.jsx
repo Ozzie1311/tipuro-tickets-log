@@ -5,6 +5,13 @@ import Tickets from './pages/Tickets'
 import TicketDetalle from './pages/TicketDetalle'
 import TicketsResueltos from './pages/TicketsResueltos'
 import PrivateRoute from './components/privateRoute'
+import OneSignal from 'react-onesignal'
+
+OneSignal.init({
+  appId: 'efd951dd-54ad-4eab-aefe-bed564801cc1',
+  notifyButton: { enable: false },
+  allowLocalhostAsSecureOrigin: true,
+})
 
 function App() {
   return (
