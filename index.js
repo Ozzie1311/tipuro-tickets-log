@@ -8,17 +8,32 @@ const authRoutes = require('./src/routes/authRoutes.js')
 const app = express()
 
 app.use(express.json())
+
+// Whitelist de orígenes permitidos
+const allowedOrigins = [
+  process.env.FRONTEND_URL?.replace(/\/$/, ''),
+  'http://localhost:5173',
+].filter(Boolean)
+
 app.use(
   cors({
-    origin: [
-      process.env.FRONTEND_URL?.replace(/\/$/, ''),
-      'http://localhost:5173',
-    ],
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200,
+    preflightContinue: false,
   }),
 )
+
+// Manejar preflight requests explícitamente
+app.options('/:path(*)', cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200,
+}))
 
 const PORT = process.env.PORT || 3000
 

@@ -8,8 +8,8 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
 
-  // Solo agregar token si existe y solo para peticiones a la API
-  if (token && config.url.includes('/api')) {
+  // Solo agregar token si existe (todas son peticiones a la API por el baseURL)
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
 
