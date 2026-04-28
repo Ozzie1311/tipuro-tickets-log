@@ -20,9 +20,6 @@ app.use(
   }),
 )
 
-// Manejar preflight requests
-app.options('*', cors())
-
 const PORT = process.env.PORT || 3000
 
 app.use('/api/estados', estadosRoutes)
