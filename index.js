@@ -26,17 +26,6 @@ app.use(
   }),
 )
 
-// Manejar preflight requests explícitamente
-// app.options(
-//   '/:path(*)',
-//   cors({
-//     origin: allowedOrigins,
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//     credentials: true,
-//     allowedHeaders: ['Content-Type', 'Authorization'],
-//     optionsSuccessStatus: 200,
-//   }),
-// )
 
 const PORT = process.env.PORT || 3000
 
