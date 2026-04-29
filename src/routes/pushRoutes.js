@@ -5,7 +5,7 @@ const verificarToken = require('../middleware/auth')
 
 router.post('/token', verificarToken, async (req, res) => {
   const { token } = req.body
-  const usuario_id = req.usuario_id
+  const usuario_id = req.usuario.id
 
   try {
     await pool.query(
