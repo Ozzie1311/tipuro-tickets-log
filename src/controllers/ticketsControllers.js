@@ -118,6 +118,8 @@ const crearTicket = async (req, res) => {
       [creado_por],
     )
 
+    console.log('Tokens encontrados: ', tokens.length)
+
     if (tokens.length > 0) {
       const mensaje = {
         notification: {
@@ -127,7 +129,7 @@ const crearTicket = async (req, res) => {
         tokens: tokens.map((t) => t.token),
       }
 
-      console.log('Tokens encontrados: ', tokens.length)
+      
       console.log('Enviando notification...')
 
       await admin.messaging().sendEachForMulticast(mensaje)
@@ -135,6 +137,7 @@ const crearTicket = async (req, res) => {
 
     res.status(201).json(result.rows[0])
   } catch (error) {
+    console.error('Error: ', error.message)
     res.status(500).json({ error: error.message })
   }
 }
