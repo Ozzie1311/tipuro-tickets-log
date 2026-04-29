@@ -5,6 +5,7 @@ const pool = require('./src/db.js')
 const estadosRoutes = require('./src/routes/estadosRoutes.js')
 const ticketsRoutes = require('./src/routes/ticketsRoutes.js')
 const authRoutes = require('./src/routes/authRoutes.js')
+const pushRoutes = require('./src/routes/pushRoutes.js')
 const app = express()
 
 app.use(express.json())
@@ -26,12 +27,12 @@ app.use(
   }),
 )
 
-
 const PORT = process.env.PORT || 3000
 
 app.use('/api/estados', estadosRoutes)
 app.use('/api/tickets', ticketsRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/push', pushRoutes)
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`)

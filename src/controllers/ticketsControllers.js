@@ -1,6 +1,16 @@
 const pool = require('../db.js')
 require('dotenv').config()
 
+const admin = require('firebase-admin')
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(
+      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT),
+    ),
+  })
+}
+
 const obtenerTickets = async (req, res) => {
   try {
     const result = await pool.query(`
@@ -88,19 +98,21 @@ const crearTicket = async (req, res) => {
       [titulo, descripcion, creado_por],
     )
 
-    await fetch('https://onesignal.com/api/v1/notifications', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${process.env.ONESIGNAL_API_KEY}`,
-      },
-      body: JSON.stringify({
-        app_id: process.env.ONESIGNAL_APP_ID,
-        included_segments: ['All'],
-        headings: { en: 'Nuevo ticket' },
-        contents: { en: titulo },
-      }),
-    })
+    const { rows: tokens } = await pool.query(
+      'SELECT token FROM push_tokens WHERE usuario_id != $1',
+      [creado_por],
+    )
+
+    if (tokens.length > 0) {
+      const mensaje = {
+        notification: {
+          title: '🎫 Nuevo ticket',
+          body: titulo,
+        },
+        tokens: tokens.map((t) => t.token),
+      }
+      await admin.messaging().sendEachForMulticast(mensaje)
+    }
 
     res.status(201).json(result.rows[0])
   } catch (error) {

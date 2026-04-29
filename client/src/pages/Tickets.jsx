@@ -11,6 +11,9 @@ const Tickets = () => {
   const [mostrarModal, setMostrarModal] = useState(false)
   const { usuario, logout } = useAuth()
   const navigate = useNavigate()
+  import useFCM from '../hooks/useFCM.js'
+
+  useFCM()
 
   useEffect(() => {
     const fectchTickets = async () => {
