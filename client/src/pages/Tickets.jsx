@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import NuevoTicketModal from '../components/NuevoTicketModal.jsx'
 import { formatearFecha } from '../utils/formatearFecha.js'
 import api from '../api.js'
+import useFCM from '../hooks/useFCM.js'
 
 const Tickets = () => {
   const [tickets, setTickets] = useState([])
@@ -11,7 +12,7 @@ const Tickets = () => {
   const [mostrarModal, setMostrarModal] = useState(false)
   const { usuario, logout } = useAuth()
   const navigate = useNavigate()
-  import useFCM from '../hooks/useFCM.js'
+  
 
   useFCM()
 
