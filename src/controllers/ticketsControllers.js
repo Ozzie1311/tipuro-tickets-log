@@ -126,6 +126,10 @@ const crearTicket = async (req, res) => {
         },
         tokens: tokens.map((t) => t.token),
       }
+
+      console.log('Tokens encontrados: ', tokens.length)
+      console.log('Enviando notification...')
+
       await admin.messaging().sendEachForMulticast(mensaje)
     }
 
