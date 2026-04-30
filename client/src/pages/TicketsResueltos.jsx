@@ -81,7 +81,6 @@ const TicketsResueltos = () => {
                 <span className='text-zinc-500 text-xs'>
                   Creado por: {t.creado_por}
                 </span>
-                <span className='text-zinc-700 text-xs'>.</span>
                 <span className='text-zinc-500 text-xs'>
                   Resuelto por: {t.resuelto_por || 'N/A'}
                 </span>
