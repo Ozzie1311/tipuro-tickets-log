@@ -40,9 +40,20 @@ const TicketsResueltos = () => {
       <div className='px-4 flex flex-col gap-2 pb-10'>
         {error && <p className='text-red-400 text-sm'>{error}</p>}
         {tickets.length === 0 && (
-          <p className='text-zinc-600 text-sm text-center mt-10'>
-            No hay tickets resueltos
-          </p>
+          //   <p className='text-zinc-600 text-sm text-center mt-10'>
+          //     No hay tickets resueltos
+          //   </p>
+          <div className='min-h-screen bg-black text-white pt-12 px-4'>
+            <div className='animate-pulse flex flex-col gap-4'>
+              <div className='h-4 w-24 bg-zinc-800 rounded-full'></div>
+              <div className='h-6 w-3/4 bg-zinc-800 rounded-full mt-4'></div>
+              <div className='h-4 w-1/2 bg-zinc-800 rounded-full'></div>
+              <div className='h-24 bg-zinc-800 rounded-2xl mt-2'></div>
+              <div className='h-4 w-1/3 bg-zinc-800 rounded-full mt-4'></div>
+              <div className='h-16 bg-zinc-800 rounded-2xl'></div>
+              <div className='h-16 bg-zinc-800 rounded-2xl'></div>
+            </div>
+          </div>
         )}
         {tickets.map((t) => (
           <div
