@@ -6,7 +6,7 @@ import api from '../api'
 const TicketsResueltos = () => {
   const [tickets, setTickets] = useState([])
   const [error, setError] = useState(null)
-  const { usuario } = useAuth()
+  //   const { usuario } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -58,11 +58,11 @@ const TicketsResueltos = () => {
             className='bg-zinc-900 rounded-2xl p-4 flex flex-col gap-1'
           >
             <div className='flex justify-between'>
-              <h3 className='font-semibold text-white text-base leading-snug'>
+              <h3 className='font-semibold text-white text-base leading-snug flex-1'>
                 {t.titulo}
               </h3>
               <span
-                className='ml-auto text-xs font-medium px-2.5 py-0.5 rounded-full'
+                className='ml-auto text-xs font-medium px-2.5 py-0.5 rounded-full shrink-0'
                 style={{
                   backgroundColor: t.estado_color + '33',
                   color: t.estado_color,
