@@ -190,7 +190,7 @@ const obtenerTicketsResueltos = async (req, res) => {
   try {
     const result = await pool.query(`
         SELECT
-        t.id, t.titulo, t.descripcion, t.creado_en, t.actualizado_en, e.nombre AS estado, e.color AS estado_color, u.nombre AS creado_por, u2.nombre AS resuelto_por
+        t.id, t.titulo, t.descripcion, t.creado_en, t.actualizado_en, t.resuelto_en, e.nombre AS estado, e.color AS estado_color, u.nombre AS creado_por, u2.nombre AS resuelto_por
         FROM tickets t
         JOIN estados e ON t.estado_id = e.id
         JOIN usuarios u ON t.creado_por = u.id
