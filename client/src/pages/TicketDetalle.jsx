@@ -11,7 +11,8 @@ const TicketDetalle = () => {
   const [comentario, setComentario] = useState('')
   const [error, setError] = useState(null)
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false)
-  const [mostrarConfirmacionPendiente, setMostrarConfirmacionPendiente] = useState(false)
+  const [mostrarConfirmacionPendiente, setMostrarConfirmacionPendiente] =
+    useState(false)
   const [estadoPendienteId, setEstadoPendienteId] = useState(null)
 
   useEffect(() => {
@@ -29,6 +30,10 @@ const TicketDetalle = () => {
     }
 
     fetchData()
+
+    const intervalo = setInterval(fetchData, 15000)
+
+    return () => clearInterval(intervalo)
   }, [id])
 
   const handleEstado = async (estado_id) => {
@@ -64,7 +69,20 @@ const TicketDetalle = () => {
     }
   }
 
-  if (!ticket) return <p className='bg-black'>Cargando...</p>
+  if (!ticket)
+    return (
+      <div className='min-h-screen bg-black text-white pt-12 px-4'>
+        <div className='animate-pulse flex flex-col gap-4'>
+          <div className='h-4 w-24 bg-zinc-800 rounded-full'></div>
+          <div className='h-6 w-3/4 bg-zinc-800 rounded-full mt-4'></div>
+          <div className='h-4 w-1/2 bg-zinc-800 rounded-full'></div>
+          <div className='h-24 bg-zinc-800 rounded-2xl mt-2'></div>
+          <div className='h-4 w-1/3 bg-zinc-800 rounded-full mt-4'></div>
+          <div className='h-16 bg-zinc-800 rounded-2xl'></div>
+          <div className='h-16 bg-zinc-800 rounded-2xl'></div>
+        </div>
+      </div>
+    )
 
   return (
     <div className='min-h-screen bg-black text-white'>
@@ -115,8 +133,9 @@ const TicketDetalle = () => {
               <div className='flex '>
                 <span className='text-zinc-500 text-xs'>Actualizado por:</span>
                 <span className='ml-1 text-zinc-300 text-xs font-medium'>
-                {ticket.actualizado_por} | Fecha: {formatearFecha(ticket.actualizado_en)}
-              </span>
+                  {ticket.actualizado_por} | Fecha:{' '}
+                  {formatearFecha(ticket.actualizado_en)}
+                </span>
               </div>
             )}
           </div>
@@ -129,24 +148,30 @@ const TicketDetalle = () => {
               Cambiar estado
             </p>
             <div className='flex flex-wrap gap-2'>
-              {ticket.estado === 'Abierto' && estados
-                .filter((e) => e.nombre === 'Pendiente')
-                .map((e) => (
-                  <button
-                    key={e.id}
-                    onClick={() => {
-                      setEstadoPendienteId(e.id)
-                      setMostrarConfirmacionPendiente(true)
-                    }}
-                    className='text-xs font-medium px-3 py-1.5 rounded-full active:scale-95 transition-transform duration-150'
-                    style={{ backgroundColor: e.color + '33', color: e.color }}
-                  >
-                    {e.nombre}
-                  </button>
-                ))}
-                {ticket.estado === 'Pendiente' && (
-                  <p className='text-zinc-600 text-sm'>Ticket en espera - solo puede ser resuelto</p>
-                )}
+              {ticket.estado === 'Abierto' &&
+                estados
+                  .filter((e) => e.nombre === 'Pendiente')
+                  .map((e) => (
+                    <button
+                      key={e.id}
+                      onClick={() => {
+                        setEstadoPendienteId(e.id)
+                        setMostrarConfirmacionPendiente(true)
+                      }}
+                      className='text-xs font-medium px-3 py-1.5 rounded-full active:scale-95 transition-transform duration-150'
+                      style={{
+                        backgroundColor: e.color + '33',
+                        color: e.color,
+                      }}
+                    >
+                      {e.nombre}
+                    </button>
+                  ))}
+              {ticket.estado === 'Pendiente' && (
+                <p className='text-zinc-600 text-sm'>
+                  Ticket en espera - solo puede ser resuelto
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -233,19 +258,29 @@ const TicketDetalle = () => {
         <div className='fixed inset-0 bg-black/70 backdrop-blur-sm flex items-end justify-center z-50 animate-fadeIn'>
           <div className='bg-zinc-900 w-full rounded-t-3xl p-6 flex flex-col gap-4 pb-10 animate-slideUp'>
             <div className='w-10 h-1 bg-zinc-600 rounded-full mx-auto mb-2'></div>
-              <h2 className='text-center text-zinc-300 font-semibold text-lg'>Cambiar a Pendiente?</h2>
-              <button onClick={() => {
+            <h2 className='text-center text-zinc-300 font-semibold text-lg'>
+              Cambiar a Pendiente?
+            </h2>
+            <button
+              onClick={() => {
                 handleEstado(estadoPendienteId)
                 setMostrarConfirmacionPendiente(false)
-              }} className='bg-green-500/20 text-green-400 rounded-xl p-3 font-semibold active:scale-95 transition-transform duration-150'>Confirmar</button>
-              <button onClick={() => setMostrarConfirmacionPendiente(false)}
-                className='bg-red-500/20 text-red-400 p-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150'                
-                > Cancelar</button>
+              }}
+              className='bg-green-500/20 text-green-400 rounded-xl p-3 font-semibold active:scale-95 transition-transform duration-150'
+            >
+              Confirmar
+            </button>
+            <button
+              onClick={() => setMostrarConfirmacionPendiente(false)}
+              className='bg-red-500/20 text-red-400 p-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150'
+            >
+              {' '}
+              Cancelar
+            </button>
           </div>
         </div>
       )}
     </div>
-
   )
 }
 

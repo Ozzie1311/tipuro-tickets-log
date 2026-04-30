@@ -12,7 +12,6 @@ const Tickets = () => {
   const [mostrarModal, setMostrarModal] = useState(false)
   const { usuario, logout } = useAuth()
   const navigate = useNavigate()
-  
 
   useFCM()
 
@@ -27,6 +26,10 @@ const Tickets = () => {
     }
 
     fectchTickets()
+
+    const intervalo = setInterval(fectchTickets, 20000)
+
+    return () => clearInterval(intervalo)
   }, [])
 
   const handleLogout = () => {
