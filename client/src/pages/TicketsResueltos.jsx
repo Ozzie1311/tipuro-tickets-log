@@ -40,9 +40,6 @@ const TicketsResueltos = () => {
       <div className='px-4 flex flex-col gap-2 pb-10'>
         {error && <p className='text-red-400 text-sm'>{error}</p>}
         {tickets.length === 0 && (
-          //   <p className='text-zinc-600 text-sm text-center mt-10'>
-          //     No hay tickets resueltos
-          //   </p>
           <div className='min-h-screen bg-black text-white pt-12 px-4'>
             <div className='animate-pulse flex flex-col gap-4'>
               <div className='h-4 w-24 bg-zinc-800 rounded-full'></div>
@@ -60,9 +57,20 @@ const TicketsResueltos = () => {
             key={t.id}
             className='bg-zinc-900 rounded-2xl p-4 flex flex-col gap-1'
           >
-            <h3 className='font-semibold text-white text-base leading-snug'>
-              {t.titulo}
-            </h3>
+            <div className='flex justify-between'>
+              <h3 className='font-semibold text-white text-base leading-snug'>
+                {t.titulo}
+              </h3>
+              <span
+                className='ml-auto text-xs font-medium px-2.5 py-0.5 rounded-full'
+                style={{
+                  backgroundColor: t.estado_color + '33',
+                  color: t.estado_color,
+                }}
+              >
+                {t.estado}
+              </span>
+            </div>
             <p className='text-zinc-500 text-sm line-clamp-1'>
               {t.descripcion}
             </p>
@@ -73,15 +81,6 @@ const TicketsResueltos = () => {
               <span className='text-zinc-700 text-xs'>.</span>
               <span className='text-zinc-500 text-xs'>
                 Resuelto por: {t.resuelto_por || 'N/A'}
-              </span>
-              <span
-                className='ml-auto text-xs font-medium px-2.5 py-0.5 rounded-full'
-                style={{
-                  backgroundColor: t.estado_color + '33',
-                  color: t.estado_color,
-                }}
-              >
-                {t.estado}
               </span>
             </div>
           </div>
