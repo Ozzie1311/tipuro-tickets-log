@@ -53,40 +53,42 @@ const TicketsResueltos = () => {
             </div>
           </div>
         )}
-        {tickets.map((t) => (
-          <div
-            key={t.id}
-            className='bg-zinc-900 rounded-2xl p-4 flex flex-col gap-1'
-          >
-            <div className='flex justify-between items-start gap-2'>
-              <h3 className='font-semibold text-white text-base leading-snug flex-1'>
-                {t.titulo}
-              </h3>
-              <span
-                className='ml-auto text-xs font-medium px-2.5 py-0.5 rounded-full shrink-0'
-                style={{
-                  backgroundColor: t.estado_color + '33',
-                  color: t.estado_color,
-                }}
-              >
-                {t.estado}
-              </span>
+        {tickets.map((t) => {
+          console.log(t)
+          return (
+            <div
+              key={t.id}
+              className='bg-zinc-900 rounded-2xl p-4 flex flex-col gap-1'
+            >
+              <div className='flex justify-between items-start gap-2'>
+                <h3 className='font-semibold text-white text-base leading-snug flex-1'>
+                  {t.titulo}
+                </h3>
+                <span
+                  className='ml-auto text-xs font-medium px-2.5 py-0.5 rounded-full shrink-0'
+                  style={{
+                    backgroundColor: t.estado_color + '33',
+                    color: t.estado_color,
+                  }}
+                >
+                  {t.estado}
+                </span>
+              </div>
+              <p className='text-zinc-500 text-sm line-clamp-1'>
+                {t.descripcion}
+              </p>
+              <div className='flex flex-col gap-1 mt-2 pt-2 border-t-zinc-800'>
+                <span className='text-zinc-500 text-xs'>
+                  Creado por: {t.creado_por}
+                </span>
+                <span className='text-zinc-700 text-xs'>.</span>
+                <span className='text-zinc-500 text-xs'>
+                  Resuelto por: {t.resuelto_por || 'N/A'}
+                </span>
+              </div>
             </div>
-            <p className='text-zinc-500 text-sm line-clamp-1'>
-              {t.descripcion}
-            </p>
-            <div className='flex flex-col gap-1 mt-2 pt-2 border-t-zinc-800'>
-              <span className='text-zinc-500 text-xs'>
-                Creado por: {t.creado_por}
-              </span>
-              <span className='text-zinc-700 text-xs'>.</span>
-              <span className='text-zinc-500 text-xs'>
-                Resuelto por: {t.resuelto_por || 'N/A'} |{' '}
-                {formatearFecha(t.resuelto_en) || 'S/R'}
-              </span>
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )
