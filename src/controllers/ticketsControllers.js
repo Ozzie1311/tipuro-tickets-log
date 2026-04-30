@@ -220,7 +220,7 @@ const resolverTicket = async (req, res) => {
         resuelto = TRUE,
         resuelto_por = $1,
         estado_id = $2,
-        actualizado_en = NOW()
+        actualizado_en = NOW(),
         resuelto_en = NOW()
         WHERE id = $3
         RETURNING *

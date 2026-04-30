@@ -77,7 +77,7 @@ const TicketsResueltos = () => {
               <p className='text-zinc-500 text-sm line-clamp-1'>
                 {t.descripcion}
               </p>
-              <div className='flex flex-col gap-1 mt-2 pt-2 border-t-zinc-800'>
+              <div className='flex flex-col gap-1 mt-2 pt-2 border-t border-zinc-800'>
                 <span className='text-zinc-500 text-xs'>
                   Creado por: {t.creado_por}
                 </span>
