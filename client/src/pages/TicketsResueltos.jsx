@@ -82,7 +82,8 @@ const TicketsResueltos = () => {
                   Creado por: {t.creado_por}
                 </span>
                 <span className='text-zinc-500 text-xs'>
-                  Resuelto por: {t.resuelto_por || 'N/A'}
+                  Resuelto por: {t.resuelto_por || 'N/A'} |{' '}
+                  {formatearFecha(t.resuelto_en)}
                 </span>
               </div>
             </div>
