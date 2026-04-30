@@ -82,7 +82,7 @@ const TicketsResueltos = () => {
               <span className='text-zinc-700 text-xs'>.</span>
               <span className='text-zinc-500 text-xs'>
                 Resuelto por: {t.resuelto_por || 'N/A'} |{' '}
-                {formatearFecha(t.resuelto_en)}
+                {formatearFecha(t.resuelto_en) || 'S/R'}
               </span>
             </div>
           </div>
