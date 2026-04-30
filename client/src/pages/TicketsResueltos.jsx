@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+// import { useAuth } from '../context/AuthContext'
+import { formatearFecha } from '../utils/formatearFecha'
 import api from '../api'
 
 const TicketsResueltos = () => {
@@ -57,7 +58,7 @@ const TicketsResueltos = () => {
             key={t.id}
             className='bg-zinc-900 rounded-2xl p-4 flex flex-col gap-1'
           >
-            <div className='flex justify-between'>
+            <div className='flex justify-between items-start gap-2'>
               <h3 className='font-semibold text-white text-base leading-snug flex-1'>
                 {t.titulo}
               </h3>
@@ -74,13 +75,14 @@ const TicketsResueltos = () => {
             <p className='text-zinc-500 text-sm line-clamp-1'>
               {t.descripcion}
             </p>
-            <div className='flex items-center gap-2 mt-2'>
+            <div className='flex flex-col gap-1 mt-2 pt-2 border-t-zinc-800'>
               <span className='text-zinc-500 text-xs'>
                 Creado por: {t.creado_por}
               </span>
               <span className='text-zinc-700 text-xs'>.</span>
               <span className='text-zinc-500 text-xs'>
-                Resuelto por: {t.resuelto_por || 'N/A'}
+                Resuelto por: {t.resuelto_por || 'N/A'} |{' '}
+                {formatearFecha(t.resuelto_en)}
               </span>
             </div>
           </div>

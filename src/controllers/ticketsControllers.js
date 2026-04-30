@@ -22,7 +22,7 @@ if (!admin.apps.length) {
   }
 
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(serviceAccount),
   })
 }
 
@@ -129,7 +129,6 @@ const crearTicket = async (req, res) => {
         tokens: tokens.map((t) => t.token),
       }
 
-      
       console.log('Enviando notification...')
 
       await admin.messaging().sendEachForMulticast(mensaje)
@@ -222,6 +221,7 @@ const resolverTicket = async (req, res) => {
         resuelto_por = $1,
         estado_id = $2,
         actualizado_en = NOW()
+        resuelto_en = NOW()
         WHERE id = $3
         RETURNING *
       `,
